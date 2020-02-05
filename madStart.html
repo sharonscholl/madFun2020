@@ -5,69 +5,125 @@
   <title>start</title>
   <style media="screen">
     *{
-      border: 1px solid red;
+      /*border: 1px solid red;*/
     }
     body {
-      background-color: rgb(205, 142, 86);
+      background-image: url("images/mosaic.jpg");
       display: flex;
       align-items: center;
       flex-direction: column;
       justify-content: center;
       color: rgb(33, 50, 111);
-      font-family: sans-serif;
+      font-family: Raleway;/*Georgia, Times, serif;*/
     }
     div {
       padding: 2em;
-      background-color: rgb(65, 140, 237);
+      background-color: rgb(181, 209, 246);
       width: 60%;
       /* margin-bottom: 1em; */
     }
     p {
       padding: 1em;
-      font-size: 2em;
-      background-color: rgb(57, 218, 152);
+      font-size: 1em;
+      background-color: rgb(231 143 155);
     }
     button {
-      background-color: rgb(169, 26, 181);
+      background-color: rgb(180, 242, 145);
       color: inherit;
       width: 30%;
-      font-size: 1.5em;
-      border-radius: 2em;
+      font-size: 1.25em;
+      border-radius: 8em;
+      border-color: rgb(167, 148, 238);
       padding: 0.5em;
       margin-top: 1em;
       cursor: pointer;
     }
-
     input {
-      font-size: inherit;
+      /*font-size: inherit;*/
+      font-family: Arial, Verdana, sans-serif;
+      font-size: .5em;
+
     }
+
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+
+
+    .answerone {
+      padding: 1em;
+      font-size: 1em;
+      background-color: rgb(241, 135, 183);
+      color: rgb(120, 143, 193);
+      text-align: left;
+      font-weight: bold;
+      border: 6px dotted rgb(120, 143, 193);
+    }
+
+    .answertwo {
+      padding: 1em;
+      font-size: 1em;
+      background-color: rgb(253, 190, 89);
+      color: rgb(167, 148, 238);
+      text-align: left;
+      font-weight: bold;
+      border: 6px dotted rgb(167, 148, 238);
+    }
+
+    .resize {
+      max-width:25%;
+      max-height:25%;
+      padding-bottom: -10px;
+    }
+
+
     .displayBlock { display: block;}
     .displayNone { display: none;}
     #warning { background-color: red;}
+
   </style>
 </head>
 
 <body>
   <div id="inputPanel">
-    <h3>A few questions for you</h3>
-    <p>A first name:
-      <input id="firstName" type="text" placeholder="first name">
+    <img src="images/madlibguytealborder.png" class="center, resize" alt="madlibs guy" align="right"/>
+    <h2>A few questions for you...</h2>
+    <p>Name a musical instrument:
+      <input id="musicalInstrument" type="text" placeholder="musical instrument">
     </p>
-    <p>Your favorite color:
-      <input id="favColor" type="text" placeholder="favorite color">
-    </p>
-    <p>Somewhere to visit:
+    <p>Name a place:
       <input id="place" type="text" placeholder="place">
     </p>
+    <p>Name a type of vegetable:
+      <input id="vegetable" type="text" placeholder="vegetable">
+      <p>Name an adjective:
+        <input id="adjective1" type="text" placeholder="adjective">
+      </p>
+      <p>Name a noun:
+        <input id="noun1" type="text" placeholder="noun">
+      </p>
+      <p>Name an adjective:
+        <input id="adjective2" type="text" placeholder="adjective">
+      </p>
+        <p>Name a verb (past tense):
+          <input id="pastTenseVerb" type="text" placeholder="past-tense verb">
+        </p>
+        <p>Name a plural noun:
+          <input id="pluralNoun" type="text" placeholder="plural noun">
+        </p>
     <button id="submit">Submit your answers</button>
     <p id="warning">Please answer all questions.</p>
 
   </div>
   <div id="outputPanel">
-    <p>Your story....</p>
-    <p id="theStory"></p>
-    <p id="theStory2"></p>
-    <p id="theStory3"></p>
+    <img src="images/mother-goose-300x274.png" class="center"/>
+    <img src="images/welcometomothergooseland.jpg" class="center" style="padding-top: 25px;"/>
+    <!--<p>A Mother Goose Sampling ...</p>-->
+    <p class=answerone id="theStory"></p>
+    <p class=answertwo id="theStory2"></p>
     <button id="again">Again?</button>
   </div>
 
@@ -78,11 +134,17 @@
   let warning = document.querySelector('#warning');
   let submit = document.querySelector('#submit');
   let again = document.querySelector('#again');
-  let firstName = document.querySelector('#firstName');
-  let favColor = document.querySelector('#favColor');
+  let musicalInstrument = document.querySelector('#musicalInstrument');
   let place = document.querySelector('#place');
+  let vegetable = document.querySelector('#vegetable');
+  let adjective1 = document.querySelector('#adjective1');
+  let noun1 = document.querySelector('#noun1');
+  let adjective2 = document.querySelector('#adjective2');
+  let pastTenseVerb = document.querySelector('#pastTenseVerb');
+  let pluralNoun = document.querySelector('#pluralNoun');
   let theStory = document.querySelector('#theStory');
-  //submit.style.cursor - "cell";
+  let theStory2 = document.querySelector('#theStory2');
+  //submit.style.cursor = "cell";
 
   //button event listeners
   submit.addEventListener('click', checkComplete, false);
@@ -91,7 +153,7 @@
 
   outputPanel.className = "displayNone";
   warning.className = "displayNone";
-  firstName.focus()
+  musicalInstrument.focus()
 
   //action functions
   function keyDownHandler(evt){
@@ -101,17 +163,31 @@
     }
   }
 
-
     function checkComplete() {
       //verify the user filled in the form
-      if (firstName.value == ""){
-        warning.textContent = "Please provide a name."
-        warning.className = "displayBlock";
-      } else if (favColor.value == ""){
-        warning.textContent = "Please provide a color."
+      if (musicalInstrument.value == ""){
+        warning.textContent = "Please provide a musical instrument."
         warning.className = "displayBlock";
       } else if (place.value == ""){
-        warning.textContent = "Please provide a location."
+        warning.textContent = "Please provide a place."
+        warning.className = "displayBlock";
+      } else if (vegetable.value == ""){
+        warning.textContent = "Please name a vegetable."
+        warning.className = "displayBlock";
+      } else if (adjective1.value == ""){
+        warning.textContent = "Please provide an adjective."
+        warning.className = "displayBlock";
+      } else if (noun1.value == ""){
+        warning.textContent = "Please provide a noun."
+        warning.className = "displayBlock";
+      } else if (adjective2.value == ""){
+        warning.textContent = "Please name an adjective."
+        warning.className = "displayBlock";
+      } else if (pastTenseVerb.value == ""){
+        warning.textContent = "Please provide a past-tense verb."
+        warning.className = "displayBlock";
+      } else if (pluralNoun.value == ""){
+        warning.textContent = "Please provide a plural noun."
         warning.className = "displayBlock";
     } else{
     // console.log(0);
@@ -124,21 +200,25 @@
     console.log("write story");
     let finishedStory1 = "";
     let finishedStory2 = "";
-    let finishedStory3 = "";
-    finishedStory1 += "Welcome, " + firstName.value + ". ";
-    finishedStory2 += "Why do you like the color " + favColor.value + "? ";
-    finishedStory3 += "I hear " + place.value + " is a good spot to visit.";
+
+    finishedStory1 += "Little Boy Blue, come blow your " + musicalInstrument.value.toLowerCase() + ". ";
+    finishedStory1 += "The sheep's in (the) " + place.value.toLowerCase() + ", the cow's in the " + vegetable.value.toLowerCase() + ". ";
+    finishedStory1 += "Where is the " + adjective1.value.toLowerCase() + " boy who looks after the sheep? ";
+    finishedStory1 += "He's under the " + noun1.value.toLowerCase()+ ", fast asleep."
+    finishedStory2 += "There was a/an " + adjective2.value.toLowerCase() + " woman who " + pastTenseVerb.value.toLowerCase() + " in a shoe. ";
+    finishedStory2 += "She had so many " + pluralNoun.value.toLowerCase() + ", she didn't know what to do.";
+
+
+
+
     theStory.textContent = finishedStory1;
     theStory2.textContent = finishedStory2;
-    theStory3.textContent = finishedStory3;
 
     inputPanel.className = "displayNone";
     outputPanel.className = "displayBlock";
     // again.focus();
 
     }
-
-
 
     function resetPage() {
       //put stuff here to reset the page so the user can try again
@@ -147,9 +227,17 @@
       outputPanel.className = "displayNone";
       warning.className = "displayNone";
 
-      firstName.value = "";
-      favColor.value = "";
+      // Fix these
+      musicalInstrument.value = "";
       place.value = "";
+      vegetable.value = "";
+      adjective1.value = "";
+      noun1.value = "";
+      adjective2.value = "";
+      pastTenseVerb.value = "";
+      pluralNoun.value = "";
+
+
 
       }
 
